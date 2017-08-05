@@ -3,9 +3,16 @@
 # Exit on error.
 set -e
 
+# Only run inside the container
+if [ ! -e /.dockerenv ]
+then
+	echo 'Must be run in container only'
+	exit 1
+fi
+
 # Make sure the code is up to date with the origin, preferring any local
 # changes we have made. Rebase to preserve a simpler history.
-git pull --rebase -s recursive -X ours origin gitdb-sqlite
+git pull --rebase -s recursive -X ours origin gitdb-sqlite-docker
 
 DBNAME='dates.db'
 DBEXPORTFILE='db_export.sql'
@@ -28,4 +35,4 @@ echo ".dump" | sqlite3 ${DBNAME} > ${DBEXPORTFILE}
 git commit -am 'Update from app_script.sh'
 
 # Push the changes to the origin.
-git push -u origin gitdb-sqlite
+git push -u origin gitdb-sqlite-docker
