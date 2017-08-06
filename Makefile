@@ -1,6 +1,8 @@
 help:
-	@echo 'make run    - run the alertonchange checker'
-	@echo 'make access - access the alertonchange environment, eg to insert data'
+	@echo 'make run    - run the dates script'
+	@echo 'make access - access the dates db'
+
+.PHONY: help run access restore check_host check_container check_nodiff
 
 access: check_host check_nodiff restore
 	# Access the db.
